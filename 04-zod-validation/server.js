@@ -13,8 +13,6 @@ const productSchema = z.object({
  
 const validate = (schema) => (req, res, next) => {
     const result = schema.safeParse(req.body);
-
-     console.log('result:', result);
     if (!result.success) {
         return res.status(400).json({ errors: result.error.issues});
     }
@@ -45,10 +43,6 @@ app.get('/products/:id', (req, res) => {
 
 app.post('/products', validate(productSchema), (req, res) => {
     const {name, price} = req.body;
-
-    if(!name || !price ) {
-        return res.status(400).json({ error: 'Name and price are required' });
-    }
 
     const newProduct = {
         id: nextId++,
